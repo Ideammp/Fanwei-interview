@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/global.js"></script>
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../layui/layui.js"></script>
+
+</head>
+<body>
+
+    <div>
+        <text id="title">
+
+        </text>
+        <p>-----------------------------------------------------------------------------------</p>
+        <text id="publishdt">
+
+        </text>
+        <p>------------------------------------------------------------------------------------</p>
+        <text id="comefrom">
+
+        </text>
+        <p>------------------------------------------------------------------------------------</p>
+    </div>
+
+
+<script>
+    var id = sessionStorage.getItem("newsid");
+    sessionStorage.removeItem("newsid");
+    if(id != null && id != undefined){
+        $.get(
+            serverBase + "news/get/" + id ,
+            function (req){
+
+                if(req.errorCode == 0){
+                    var news = req.data;
+                    $('#title').html(news.title);
+                    $('#publishdt').html(news.publishdt);
+                    $('#comefrom').html(news.comefrom);
+
+                }
+            }
+        )
+    }
+</script>
+
+</body>
+
+
+
+</html>

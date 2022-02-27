@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>新闻管理——后台</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../js/jquery-3.1.1.min.js"></script>
+
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-col-md4 layui-col-md-offset4">
+            <h3>修改密码——旧密码验证</h3>
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <i class="layui-icon layui-icon-password"></i>
+                        原密码</label>
+                    <div class="layui-input-block">
+                        <input type="password" name="password" required
+                               placeholder="请输入登录密码" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button type="button" id="btnOldpass" class="layui-btn layuibtn-danger">验证</button>
+                        <button type="reset" class="layui-btn layui-btn-warm">取消
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="../layui/layui.js"></script>
+<script src="../js/global.js"></script>
+<script>
+    var layer ;
+    layui.use(['layer', 'form'], function(){
+        layer = layui.layer;
+        var form = layui.form;
+    });
+
+
+    $(function(){
+        $("#btnOldpass").click(function(){
+            var loginUser = parseSysUser() ;
+            var data = {
+                id : loginUser.id,
+                password : $('input[name="password"]').val()
+            } ;
+            $.post(
+                serverBase + "sys/checkpwd" ,
+                data ,
+                function(req){
+
+                    console.log(req) ;
+
+                    if(req.errorCode == 0) {
+//进入修改密码页面
+                        location.href = "newpass.html" ;
+                    } else {
+                        layer.msg(req.msg) ;
+                    }
+                }
+            )
+        })
+    })
+</script>
+</body>
+</html>

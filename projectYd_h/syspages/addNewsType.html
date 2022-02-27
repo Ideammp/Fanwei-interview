@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximumscale=1">
+    <title>新闻管理——后台</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../js/global.js"></script>
+    <style>
+        body {
+            padding-top: 15px;
+        }
+        .topnav {
+            height : 40px;
+            line-height:40px;
+            font-size : 16px;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-fluid">
+    <!-- 上方导航 -->
+    <div class="layui-bg-gray topnav">
+<span class="layui-breadcrumb">
+<a href="welcome.html" target="mainFrame">首页</a>
+<a>新闻类别管理</a>
+<a><cite>添加新闻类别</cite></a>
+</span>
+    </div>
+
+
+    <div>
+        <div style="text-align:center; margin-top: 15px ; font-size: 20px ; font-weight: bolder" >
+
+            <h3>添加新闻类别</h3>
+
+        </div>
+        <form id="addNewsType" class="layui-form" action="">
+
+
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <i class="layui-icon layui-icon-at"></i>
+                    新闻类别</label>
+                <div class="layui-input-block">
+                    <input type="text" name="typename" required placeholder="请输入新闻类别" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+
+
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="button" id="btnAdd" class="layui-btn layui-btn-danger">添加</button>
+                    <button type="reset" id="btnReset" class="layui-btn layui-btn-warm">取消</button>
+                </div>
+            </div>
+
+
+
+
+        </form>
+    </div>
+</div>
+<script src="../layui/layui.js"></script>
+<script>
+    var layer, form ;
+    layui.use(['layer', 'element','form'], function() {
+        form = layui.form;
+        layer = layui.layer;
+        var element = layui.element;
+
+    });
+
+
+    $(function(){
+
+
+        //新闻类别选择
+       /* $.get(
+            serverBase + "/newstype/all",
+            function (req){
+                if (req.errorCode == 0){
+                    var newstype = req.data;
+                    var opts = '<option value="-1">--请选择类别--</option>'
+                    $.each(newstype,function (index,item){
+                        opts += '<option value="'+item.id+'">'+item.typename+'</option>'
+                    });
+                    $("#typeSelect").html(opts);
+                    form.render('select');
+                }
+            }
+        )*/
+
+        //取消按钮实现
+
+
+        $("#btnReset").click(function (){
+
+            location.href = "NewsManager.html";
+
+
+        })
+
+
+
+        //添加按钮实现添加
+
+        $("#btnAdd").click(function(){
+            $.post(
+                serverBase + "/newstype/add" ,
+                $("#addNewsType").serialize(),
+                function(req) {
+                 //   console.log($("#addNewsType").serialize());
+                    layer.msg(req.msg) ;
+                    if(req.errorCode == 0) {
+
+                        layer.confirm('是否继续添加？',
+                            {
+                                btn: ['添加', '取消'] //可以无限个按钮
+                            }, function(index, layero){
+                                $("#addNewsType")[0].reset();
+                                layer.close(index);
+                            }, function(index){
+                                location.href = "NewsTypeManager.html";
+                            });
+                    }
+                })
+        })
+    })
+</script>
+</body>
+</html>

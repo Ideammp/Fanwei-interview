@@ -1,0 +1,2 @@
+2021-06-07 14:27:11.511 ERROR [main][Log4j2Impl.java:58] - testWhileIdle is true, validationQuery not set
+2021-06-07 14:27:11.532 INFO [main][Log4j2Impl.java:106] - {dataSource-1} inited

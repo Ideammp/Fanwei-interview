@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>新闻管理——后台</title>
+  <link rel="stylesheet" href="../layui/css/layui.css">
+
+</head>
+<body>
+<div class="layui-fluid">
+  <div class="layui-row">
+    <div class="layui-col-md4 layui-col-md-offset4">
+      <h3>修改密码——新密码</h3>
+      <form class="layui-form" action="">
+        <div class="layui-form-item">
+          <label class="layui-form-label">
+            <i class="layui-icon layui-icon-password"></i>新密码</label>
+          <div class="layui-input-block">
+            <input type="password" name="password" required
+                   placeholder="请输入新密码" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">
+            <i class="layui-icon layui-icon-password"></i>
+            确认密码</label>
+          <div class="layui-input-block">
+            <input type="password" name="password2" required
+                   placeholder="请输入确认密码" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button type="button" id="btnNewpass" class="layui-btn layuibtn-danger">修改</button>
+            <button type="reset" class="layui-btn layui-btn-warm">取消
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="../layui/layui.js"></script>
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/global.js"></script>
+<script>
+  var layer ;
+  layui.use(['layer', 'form'], function(){
+    layer = layui.layer;
+    var form = layui.form;
+  });
+  $(function(){
+    $("#btnNewpass").click(function(){
+      if($('input[name="password"]').val() != $('input[name="password2"]').val())
+      {
+        layer.msg('两次密码不一致!') ;
+        return ;
+      }
+      var loginUser = parseSysUser() ;
+      var data = {
+        id : loginUser.id,
+        password : $('input[name="password"]').val()
+      } ;
+      $.post(
+              serverBase + "/sys/repass" ,
+              data ,
+              function(req){
+                console.log(req) ;
+                if(req.errorCode == 0) {layer.msg('修改成功，请重新登录！') ;
+//location.href="../SysLogin.html" ;
+                  window.open("../koko.html" , "_top") ;
+                } else {
+                  layer.msg(req.msg) ;
+                }
+              }
+      )
+    })
+  })
+</script>
+</body>
+</html>

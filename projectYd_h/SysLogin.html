@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+    <title>登录</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <link rel="stylesheet" href="css/ourLove.css">
+
+    <style>
+        .formTop{
+            margin-top: 300px;
+        }
+    </style>
+
+
+</head>
+<body>
+
+
+<div class="layui-container">
+
+    <div class="layui-row">
+        <div class="layui-col-md8 layui-bg">
+            你的内容 9/12
+
+
+
+        </div>
+        <div class="layui-col-md4 layui-bg-blue formTop">
+            你的内容 3/1
+
+            <form id="loginForm" class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" required  lay-verify="required" placeholder="请输入用户名:" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+
+                    <label class="layui-form-label">密码</label>
+                    <div class="layui-input-block">
+                        <input type="password" name="password" required lay-verify="required" placeholder="请输入密码:" autocomplete="off" class="layui-input">
+                    </div>
+
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button id="btnLogin" type="button" class="layui-btn" lay-submit lay-filter="formDemo">登录</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script src="layui/layui.js" ></script>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/global.js"></script>
+
+<script>
+    layui.use(['layer', 'form'], function(){
+        var layer = layui.layer;
+        var form = layui.form;
+
+        layer.msg('Hello World！！！ I want to give you a hug @');
+    });
+
+    $(function (){
+        $("#btnLogin").click(function (){
+
+            $.post(
+                serverBase + "sys/login",
+                $("#loginForm").serialize(),
+                function (req){
+                   //console.log(req);
+                    layer.msg(req.msg);
+                    if(req.errorCode == 0){
+                        //数据存储
+                    sessionStorage.setItem("login",JSON.stringify(req.data));
+                        //页面跳转
+                    location.href = "syspages/admin.html";
+
+                    }
+                }
+
+
+
+
+            )
+
+        })
+
+    })
+
+</script>
+
+
+</body>
+</html>

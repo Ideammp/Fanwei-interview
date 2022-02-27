@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/echarts.min.js"></script>
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../layui/layui.js"></script>
+    <script src="../js/global.js"></script>
+
+
+</head>
+<body>
+
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 600px;height:400px;"></div>
+
+
+
+<script type="text/javascript">
+
+var dataff;
+var ff = ['dd','ddd','dddd','ddddd','dddddd','ff'];
+    //数据加载
+    $.get(
+        serverBase + "news/get/" + 1,
+        function (req){
+            if ( req.errorCode == 0 ){
+
+                dataff = req.data;
+
+                var jj;
+
+                jj = dataff.title;
+
+                ff.push(jj);
+
+
+            }
+        }
+    )
+
+console.log(ff);
+
+
+
+
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '新闻点击统计'
+        },
+        tooltip: {},
+        legend: {
+            data:['新闻点击量']
+        },
+        xAxis: {
+            data: ff
+        },
+        yAxis: {},
+        series: [{
+            name: '销量',
+            type: 'bar',
+            data: [10, 20, 36, 10, 10, 20]
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+
+
+
+</script>
+
+
+
+</body>
+</html>

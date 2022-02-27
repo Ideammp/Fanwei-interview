@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximumscale=1">
+    <title>新闻管理——后台</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../js/global.js"></script>
+    <style>
+        body {
+            padding-top: 15px;
+        }
+        .topnav {
+            height : 40px;
+            line-height:40px;
+            font-size : 16px;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-fluid">
+    <!-- 上方导航 -->
+    <div class="layui-bg-gray topnav">
+<span class="layui-breadcrumb">
+<a href="welcome.html" target="mainFrame">首页</a>
+<a href="SysuserManager.html" target="mainFrame">管理员管理</a>
+<a><cite>添加管理员</cite></a>
+</span>
+    </div>
+    <div>
+        <h3>添加管理员</h3><form id="addForm" class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <i class="layui-icon layui-icon-username"></i>
+                账号</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" required placeholder="请输入管理员账
+号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <i class="layui-icon layui-icon-auz"></i>
+                电话</label>
+            <div class="layui-input-block">
+                <input type="text" name="mobile" required placeholder="请输入管理员
+电话" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" id="btnAdd" class="layui-btn layui-btndanger">提交</button>
+                <button type="reset" class="layui-btn layui-btn-warm">取消</button>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+<script src="../layui/layui.js"></script>
+<script>
+    var layer ;
+    layui.use(['layer', 'element'], function() {
+        layer = layui.layer;
+        var element = layui.element;
+    });
+    $(function(){
+        $("#btnAdd").click(function(){
+            $.post(
+                serverBase + "/sys/add" ,
+                $("#addForm").serialize(),
+                function(req) {
+                    console.log(req) ;
+                    layer.msg(req.msg) ;
+                    if(req.errorCode == 0) {
+                        window.open('SysuserManager.html' , 'mainFrame') ;
+                    }
+                })
+        })
+    })
+</script>
+</body>
+</html>
